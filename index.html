@@ -14,7 +14,7 @@
         body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; padding-bottom: 60px; }
         .banner-img { width: 100%; display: block; height: auto; }
         .container { max-width: 500px; margin: 20px auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
-        .logo-section { text-align: left; border-bottom: 2px solid #005eb8; padding-bottom: 1px; margin-bottom: 20px; }
+        .logo-section { text-align: left; border-bottom: 2px solid #005eb8; padding-bottom: 10px; margin-bottom: 20px; }
         .form-group { margin-bottom: 18px; }
         .info-p { font-size: 13.5px; color: #555; line-height: 1.5; margin-bottom: 15px; }
         label { display: block; font-weight: bold; margin-bottom: 6px; color: #333; font-size: 14px; }
@@ -23,18 +23,16 @@
         .btn-submit { width: 100%; background-color: #005eb8; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.2s; }
         .btn-submit:hover { background-color: #004488; }
         
-        /* ▬▬ রেজাল্ট বক্স ও টেবিল লেআউট ▬▬ */
         .results-box { border-top: 2px solid #005eb8; margin-top: 25px; padding-top: 15px; background: #fafafa; padding: 15px; border-radius: 6px; }
         .result-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14.5px; }
         .result-item:last-of-type { border-bottom: none; }
         .result-label { font-weight: bold; color: #444; }
         .result-val { color: #111; font-weight: 500; text-align: right; }
         
-        /* স্ট্যাটাস ব্যাজ */
         .status-badge { background: #e1f5fe; color: #0288d1; padding: 3px 10px; border-radius: 12px; font-weight: bold; font-size: 13px; display: inline-block; }
         .status-badge.approved { background: #e8f5e9; color: #2e7d32; }
+        .status-badge.pending { background: #fff3e0; color: #ef6c00; }
         
-        /* পিডিএফ ডাউনলোড বাটন */
         .btn-download { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background-color: #2e7d32; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; margin-top: 15px; text-decoration: none; text-align: center; box-sizing: border-box; }
         .btn-download:hover { background-color: #1b5e20; }
         
@@ -43,7 +41,9 @@
 </head>
 <body>
 
-<img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8176.jpg" alt="Showcase Image" style="pointer-events: none; margin-bottom: 40px;" ondragstart="return false;" width="100%">
+<img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8176.jpg" class="banner-img" alt="Header 1">
+<img src="https://uploads.onecompiler.io/44erpqqpq/44feu2x4e/8179.jpg" class="banner-img" alt="Header 2">
+
 <div class="container">
     <div class="logo-section">
         <h2 style="color: #005eb8; margin: 0; font-size: 20px;">Check visa conditions online (VEVO) Verification</h2>
@@ -67,22 +67,10 @@
         <h3 style="color: #005eb8; text-align: center; margin-top: 0; margin-bottom: 5px;">VEVO Check Results</h3>
         <p id="lastChecked" style="font-size: 11px; color: gray; text-align: center; margin-bottom: 15px;">Last checked: Realtime</p>
         
-        <div class="result-item">
-            <span class="result-label">Name:</span> 
-            <span class="result-val" id="resName">---</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">Passport No:</span> 
-            <span class="result-val" id="resPassport">---</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">Date of Birth:</span> 
-            <span class="result-val" id="resDob">---</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">Application Type:</span> 
-            <span class="result-val" id="resType">---</span>
-        </div>
+        <div class="result-item"><span class="result-label">Name:</span> <span class="result-val" id="resName">---</span></div>
+        <div class="result-item"><span class="result-label">Passport No:</span> <span class="result-val" id="resPassport">---</span></div>
+        <div class="result-item"><span class="result-label">Date of Birth:</span> <span class="result-val" id="resDob">---</span></div>
+        <div class="result-item"><span class="result-label">Application Type:</span> <span class="result-val" id="resType">---</span></div>
         <div class="result-item">
             <span class="result-label">Status:</span> 
             <span class="result-val"><span id="resStatus" class="status-badge">Submitted</span></span>
@@ -102,7 +90,7 @@
     © Australian Government — Department of Home Affairs
 </div>
 
-    <script>
+<script>
     // 🔐 আপনার দেওয়া নতুন ফায়ারবেস কনফিগারেশন এখানে আপডেট করা হয়েছে
     const firebaseConfig = {
         apiKey: "AIzaSyDWbYwNwDtdyUXbIy5Lmd8l_HF0RFIyINU",
@@ -114,14 +102,12 @@
         appId: "1:664983277240:web:e24c9ebaa96fddb4596e4d",
         measurementId: "G-S8LFXLEFFD"
     };
-        
-    // Initialize Firebase
+    
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
     const db = firebase.database();
 
-    // 🔍 ভিসা ভেরিফিকেশন চেক ফাংশন
     function checkVisa() {
         const docNum = document.getElementById('docNumber').value.trim();
         const dobInput = document.getElementById('dob').value;
@@ -131,55 +117,51 @@
             return;
         }
 
-        // অ্যাডমিন প্যানেলের আর্কিটেকচার অনুযায়ী Passport Number (Unique Key) দিয়ে সার্চ করা হচ্ছে
         db.ref('visas/' + docNum).once('value').then((snapshot) => {
             const data = snapshot.val();
             
-            // ডেটা পাওয়া গেলে এবং জন্মতারিখ ম্যাচ করলে (যদি অ্যাডমিন প্যানেলে dob সেভ করা থাকে)
-            // নোট: আপনার অ্যাডমিন স্ক্রিনশটে dob ফিল্ড না থাকলেও সুরক্ষার জন্য ডেটা চেক ভেরিফাই করা হচ্ছে
             if (data) {
-                // ইনপুট ডেটা দিয়ে রেজাল্ট প্যানেল আপডেট
-                document.getElementById('resName').innerText = data.app_name || data.name || "Habib Noman"; // Application Name
-                document.getElementById('resPassport').innerText = data.passport_num || docNum; // Passport Number
+                // ইনপুট করা dob এর সাথে ডাটাবেজের dob মিলানো (যদি ডাটাবেজে থাকে)
+                if(data.dob && data.dob !== dobInput) {
+                    alert("দুঃখিত, আপনার জন্ম তারিখটি মিলছে না। সঠিক তথ্য দিন।");
+                    return;
+                }
+
+                document.getElementById('resName').innerText = data.app_name || "---";
+                document.getElementById('resPassport').innerText = data.passport_num || docNum;
                 document.getElementById('resDob').innerText = data.dob || dobInput;
-                document.getElementById('resType').innerText = data.app_type || "Skills In Demand visa (subclass 482)"; // Application Type
+                document.getElementById('resType').innerText = data.app_type || "---";
                 
-                // স্ট্যাটাস সেটআপ (যদি ডাটাবেজে স্ট্যাটাস না থাকে তবে ডিফল্ট Submitted দেখাবে)
                 const statusElement = document.getElementById('resStatus');
                 statusElement.innerText = data.status || "Submitted";
-                if(data.status === "Approved" || data.status === "Success") {
-                    statusElement.classList.add('approved');
-                } else {
-                    statusElement.classList.remove('approved');
-                }
+                
+                // রিমুভ ও অ্যাড কালার ক্লাস
+                statusElement.className = "status-badge";
+                if(data.status === "Approved") statusElement.classList.add('approved');
+                if(data.status === "Pending") statusElement.classList.add('pending');
 
-                // 📄 পিডিএফ সার্টিফিকেট ডাউনলোডের কন্ডিশনাল লজিক
                 const pdfBtn = document.getElementById('pdfDownloadLink');
-                if (data.cert_url || data.pdf_url) {
-                    pdfBtn.href = data.cert_url || data.pdf_url; // Certificate Download URL (PDF)
-                    pdfBtn.style.display = 'flex'; // পিডিএফ থাকলে বাটনটি শো করবে
+                if (data.cert_url) {
+                    pdfBtn.href = data.cert_url;
+                    pdfBtn.style.display = 'flex';
                 } else {
-                    pdfBtn.style.display = 'none'; // না থাকলে হাইড থাকবে
+                    pdfBtn.style.display = 'none';
                 }
 
-                // ভিউ ইন্টারফেস চেঞ্জ
                 document.getElementById('searchForm').style.display = 'none';
                 document.getElementById('resultArea').style.display = 'block';
                 
-                // লাইভ ডেট আপডেট
                 const today = new Date().toISOString().slice(0, 10);
                 document.getElementById('lastChecked').innerText = "Last checked: " + today;
 
             } else {
-                alert("আপনার প্রদানকৃত ডকুমেন্ট নাম্বারটি ভুল অথবা ডাটাবেজে খুঁজে পাওয়া যায়নি। দয়া করে সঠিক তথ্য দিয়ে পুনরায় চেষ্টা করুন।");
+                alert("আপনার প্রদানকৃত পাসপোর্ট নাম্বারটি ডাটাবেজে খুঁজে পাওয়া যায়নি।");
             }
         }).catch(err => {
-            console.error(err);
-            alert("সার্ভার সংযোগে ত্রুটি ঘটেছে। আপনার ইন্টারনেট কানেকশন চেক করুন।");
+            alert("সংযোগ ত্রুটি: " + err.message);
         });
     }
 
-    // রেজাল্ট ক্লোজ করার ফাংশন
     function closeVevo() {
         document.getElementById('resultArea').style.display = 'none';
         document.getElementById('searchForm').style.display = 'block';
