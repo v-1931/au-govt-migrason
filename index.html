@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEVO Check - Australia</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        .header { background-color: #001a35; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 500px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .logo-section { text-align: left; border-bottom: 2px solid #005eb8; padding-bottom: 10px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+        input[type="text"], input[type="date"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-submit { background-color: #005eb8; color: white; border: none; padding: 12px 25px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .results-box { border-top: 2px solid #eee; margin-top: 20px; padding-top: 10px; }
+        .result-item { margin-bottom: 10px; font-size: 15px; }
+        .result-label { font-weight: bold; color: #555; }
+        .footer { background-color: #001a35; color: white; padding: 15px; text-align: center; position: fixed; bottom: 0; width: 100%; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8176.jpg" width="100%" height="50%">
+<img src="https://uploads.onecompiler.io/44erpqqpq/44feu2x4e/8179.jpg" width="100%" height="50%">
+<header>
+</div>
+
+<div class="container">
+    <div class="logo-section">
+        <h2 style="color: #005eb8; margin: 0;">Check visa conditions online (VEVO) Verification</h2>
+    </div>
+
+    <div class="form-group">
+      <p>Visa Entitlement Verification Online (VEVO) allows visa holders, employers, education providers and other organisations to check visa conditions.</p>
+        <label>Document Number (এটাই মেইন নাম্বার):</label>
+        <input type="text" id="docNumber" placeholder="Enter Reference Number">
+    </div>
+    <div class="form-group">
+        <label>Date of Birth:</label>
+        <input type="date" id="dob">
+    </div>
+    <button class="btn-submit" onclick="checkVisa()">Submit</button>
+
+    <div id="resultArea" class="results-box" style="display:none;">
+        <h3 style="color: #005eb8; text-align: center;">Vevo Check Results</h3>
+        <p style="font-size: 12px; color: gray; text-align: center;">Last checked: 2026-02-06</p>
+        
+        <div class="result-item"><span class="result-label">Visa Name:</span> <span id="resName">Habib Noman</span></div>
+        <div class="result-item"><span class="result-label">Grant Date:</span> 28-10-2025</div>
+        <div class="result-item"><span class="result-label">Expiry Date:</span> 13-10-2027</div>
+        <div class="result-item"><span class="result-label">Visa Class:</span> Work visa application</div>
+        <div class="result-item"><span class="result-label">Work Entitlement:</span> The visa holder has right to work in Australia.</div>
+        
+        <button style="width:100%; padding: 10px; margin-top: 10px; cursor: pointer;">Close VEVO Check</button>
+    </div>
+ </div>
+ <img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8174.jpg" width="100%" height="50%">
+   <p>Organisations Registered organisations can check someone's visa details.
+Register for an ImmiAccount and then use VEVO to see the visa conditions of visa holders who have given you permission. Learn how to use VEVO for organisations.</p>
+    </div>
+ <div class="footer">
+    © Australian Government — Department of Home Affairs Australia
+</div>
+
+<script>
+    function checkVisa() {
+        // এখানে আপনার এডমিন থেকে আসা ডাটা বা শর্ত যোগ করবেন
+        var docNum = document.getElementById("docNumber").value;
+        if(docNum === "123456") { // ডেমো কন্ডিশন
+            document.getElementById("resultArea").style.display = "block";
+        } else {
+            alert("সঠিক ডকুমেন্ট নাম্বার দিন।");
+        }
+    }
+</script>
+
+</body>
+</html>
